@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: upimesh-postgres
+    environment:
+      POSTGRES_DB: upimesh
+      POSTGRES_USER: upimesh
+      POSTGRES_PASSWORD: upimesh
+    ports:
+      - "5432:5432"
+    volumes:
+      - upimesh-pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: upimesh-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  upimesh-pgdata:
