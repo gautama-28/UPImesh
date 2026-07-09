@@ -44,6 +44,9 @@ public class IdempotencyService {
         }
         return claimed;
     }
+    public long size() {
+        return redisTemplate.getConnectionFactory().getConnection().serverCommands().dbSize();
+    }
 
     /** Demo/test helper - clears the entire idempotency cache. */
     public void clear() {
