@@ -8,6 +8,8 @@ That's the system this repository builds: encrypted payments that survive having
 
 This is the full-stack build — a Spring Boot backend doing real cryptography and real settlement, a Postgres + Redis production-shaped data layer, a React dashboard that visualizes packets hopping through the mesh live, and a local LLM that turns your transaction history into plain-English answers, grounded strictly in numbers the backend already computed — never numbers it guessed.
 
+**Demo**
+![Demo](demo.gif)
 ---
 
 ## Table of Contents
