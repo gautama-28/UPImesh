@@ -19,6 +19,16 @@ public class MeshSimulatorService {
 
     private final Map<String, VirtualDevice> devices = new LinkedHashMap<>();
 
+    // Bluetooth "range" - who can directly hear whom. Alice is NOT adjacent
+    // to the bridge - she must route through a stranger, same as someone in
+    // a basement can't reach the outside world in one hop.
+    private static final Map<String, Set<String>> ADJACENCY = Map.of(
+            "phone-alice", Set.of("stranger1", "stranger2"),
+            "stranger1", Set.of("phone-alice", "stranger2", "phone-bridge"),
+            "stranger2", Set.of("phone-alice", "stranger1", "phone-bridge"),
+            "phone-bridge", Set.of("stranger1", "stranger2")
+    );
+
     public MeshSimulatorService() {
         resetMesh();
     }
@@ -70,8 +80,9 @@ public class MeshSimulatorService {
                         packet.getPacketId(), packet.getTtl() - 1,
                         packet.getCreatedAt(), packet.getCiphertext());
 
+                Set<String> neighbors = ADJACENCY.getOrDefault(fromDeviceId, Set.of());
                 for (VirtualDevice target : devices.values()) {
-                    if (!target.getDeviceId().equals(fromDeviceId)) {
+                    if (neighbors.contains(target.getDeviceId())) {
                         target.receive(hopped);
                         transfers.add(fromDeviceId + " -> " + target.getDeviceId() + " (" + packet.getPacketId().substring(0, 8) + ")");
                     }
