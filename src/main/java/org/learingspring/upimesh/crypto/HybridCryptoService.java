@@ -45,14 +45,14 @@ public class HybridCryptoService {
         random.nextBytes(iv);
 
         // 3. Encrypt the plaintext with AES-256-GCM
-        Cipher aesCipher = Cipher.getInstance("AES/GCM/NoPadding");
-        GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_BITS, iv);
-        aesCipher.init(Cipher.ENCRYPT_MODE, aesKey, gcmSpec);
+        Cipher aesCipher = Cipher.getInstance("AES/GCM/NoPadding"); //ALgo,Mode,Padding
+        GCMParameterSpec gcmSpec = new GCMParameterSpec(GCM_TAG_BITS, iv); //Tag Size, IV vector
+        aesCipher.init(Cipher.ENCRYPT_MODE, aesKey, gcmSpec); //Mode - Encrypt?Decrypt, aes-key, config-parameter
         byte[] aesCiphertext = aesCipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8));
 
         // 4. Encrypt the AES key itself with the server's RSA public key
-        Cipher rsaCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
-        rsaCipher.init(Cipher.ENCRYPT_MODE, serverKeyHolder.getPublicKey());
+        Cipher rsaCipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding"); //ALgo,Mode,Padding
+        rsaCipher.init(Cipher.ENCRYPT_MODE, serverKeyHolder.getPublicKey()); //mode,
         byte[] encryptedAesKey = rsaCipher.doFinal(aesKey.getEncoded());
 
         // 5. Concatenate: [RSA-encrypted AES key][IV][AES ciphertext+tag]

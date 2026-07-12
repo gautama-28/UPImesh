@@ -10,6 +10,11 @@ services:
       - "5432:5432"
     volumes:
       - upimesh-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U upimesh"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7
@@ -17,5 +22,33 @@ services:
     ports:
       - "6379:6379"
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: upimesh-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - upimesh-ollama-data:/root/.ollama
+
+  backend:
+    build: .
+    container_name: upimesh-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      ollama:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/upimesh
+      SPRING_DATASOURCE_USERNAME: upimesh
+      SPRING_DATASOURCE_PASSWORD: upimesh
+      SPRING_DATA_REDIS_HOST: redis
+      OLLAMA_BASE_URL: http://ollama:11434
+    ports:
+      - "8080:8080"
+
 volumes:
   upimesh-pgdata:
+  upimesh-ollama-data:
