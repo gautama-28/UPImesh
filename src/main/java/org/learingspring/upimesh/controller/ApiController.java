@@ -30,7 +30,7 @@ public class ApiController {
     private final TransactionRepository txRepo;
     private final IdempotencyService idempotency;
 
-    // ------------------------------------------------------------------ key
+    // -------- ---------------------------------------------------------- key
 
     @GetMapping("/server-key")
     public Map<String, String> getServerPublicKey() {

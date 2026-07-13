@@ -9,8 +9,8 @@ const LAYOUT = {
 };
 const ADJACENCY = {
     'phone-alice': ['stranger1', 'stranger2'],
-    'stranger1': ['phone-alice', 'stranger2', 'phone-bridge'],
-    'stranger2': ['phone-alice', 'stranger1', 'phone-bridge'],
+    'stranger1': ['phone-alice', 'phone-bridge'],
+    'stranger2': ['phone-alice', 'phone-bridge'],
     'phone-bridge': ['stranger1', 'stranger2'],
 };
 

@@ -22,7 +22,7 @@ import java.time.Instant;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BridgeIngestionService {
+public class BridgeIngestionService { //Orchestrator of all services
 
     private final HybridCryptoService cryptoService;
     private final IdempotencyService idempotencyService;

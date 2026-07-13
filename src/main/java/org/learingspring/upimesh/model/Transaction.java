@@ -49,7 +49,7 @@ public class Transaction {
     @Column(nullable = false)
     private int hopCount;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)// If not modified then it will return 0 and 1
     @Column(nullable = false)
     private Status status;
 

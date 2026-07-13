@@ -24,8 +24,8 @@ public class MeshSimulatorService {
     // a basement can't reach the outside world in one hop.
     private static final Map<String, Set<String>> ADJACENCY = Map.of(
             "phone-alice", Set.of("stranger1", "stranger2"),
-            "stranger1", Set.of("phone-alice", "stranger2", "phone-bridge"),
-            "stranger2", Set.of("phone-alice", "stranger1", "phone-bridge"),
+            "stranger1", Set.of("phone-alice", "phone-bridge"),
+            "stranger2", Set.of("phone-alice", "phone-bridge"),
             "phone-bridge", Set.of("stranger1", "stranger2")
     );
 

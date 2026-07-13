@@ -38,7 +38,7 @@ public class IdempotencyService {
         Boolean firstClaim = redisTemplate.opsForValue()
                 .setIfAbsent(packetHash, Instant.now().toString(), Duration.ofSeconds(ttlSeconds));
 
-        boolean claimed = Boolean.TRUE.equals(firstClaim);
+        boolean claimed = Boolean.TRUE.equals(firstClaim); //Null was also possible that's why refiltering
         if (!claimed) {
             log.info("Duplicate packet detected, hash already claimed: {}", packetHash);
         }
